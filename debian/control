@@ -1,0 +1,112 @@
+Source: libquicktime
+Section: devel
+Priority: optional
+Maintainer: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Uploaders:
+ Reinhard Tartler <siretart@tauware.de>,
+ Loic Minier <lool@dooz.org>
+Standards-Version: 3.9.8
+Build-Depends:
+ autopoint,
+ autotools-dev,
+ cdbs (>= 0.4.93~),
+ debhelper (>= 9),
+ dh-autoreconf,
+ doxygen,
+ libasound2-dev [linux-any],
+ libavc1394-dev [linux-any],
+ libavcodec-dev (>= 6:10~),
+ libdv4-dev,
+ libfaad-dev,
+ libgl1-mesa-dev | libgl-dev,
+ libgtk2.0-dev (>= 2.24),
+ libjpeg-dev,
+ libmp3lame-dev,
+ libpng-dev,
+ libpopt-dev,
+ libraw1394-dev [linux-any],
+ libsdl1.2-dev,
+ libswscale-dev (>= 6:10~),
+ libvorbis-dev,
+ libx264-dev,
+ libxaw7-dev,
+ libxv-dev
+Vcs-Git: https://salsa.debian.org/multimedia-team/libquicktime.git
+Vcs-Browser: https://salsa.debian.org/multimedia-team/libquicktime
+Homepage: http://libquicktime.sourceforge.net/
+
+Package: libquicktime2
+Section: libs
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends}
+Description: library for reading and writing Quicktime files
+ libquicktime is a library for reading and writing QuickTime files on UNIX
+ systems. Video CODECs supported by this library are OpenDivX, MJPA, JPEG Photo,
+ PNG, RGB, YUV 4:2:2, and YUV 4:2:0 compression. Supported audio CODECs are Ogg
+ Vorbis, IMA4, ulaw, and any linear PCM format.
+
+Package: libquicktime-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends:
+ libgl1-mesa-dev | libgl-dev,
+ libquicktime2 (= ${binary:Version}),
+ zlib1g-dev,
+ ${misc:Depends}
+Suggests:
+ libquicktime-doc
+Description: library for reading and writing Quicktime files (development)
+ libquicktime is a library for reading and writing QuickTime files on UNIX
+ systems. Video CODECs supported by this library are OpenDivX, MJPA, JPEG Photo,
+ PNG, RGB, YUV 4:2:2, and YUV 4:2:0 compression. Supported audio CODECs are Ogg
+ Vorbis, IMA4, ulaw, and any linear PCM format.
+ .
+ This package contains the development files.
+
+Package: libquicktime-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends:
+ libjs-jquery,
+ ${misc:Depends}
+Description: library for reading and writing Quicktime files (documentation)
+ libquicktime is a library for reading and writing QuickTime files on UNIX
+ systems. Video CODECs supported by this library are OpenDivX, MJPA, JPEG Photo,
+ PNG, RGB, YUV 4:2:2, and YUV 4:2:0 compression. Supported audio CODECs are Ogg
+ Vorbis, IMA4, ulaw, and any linear PCM format.
+ .
+ This package contains the html documentation of the libquicktime API.
+
+Package: quicktime-utils
+Section: utils
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends}
+Description: library for reading and writing Quicktime files (utilities)
+ libquicktime is a library for reading and writing QuickTime files on UNIX
+ systems. Video CODECs supported by this library are OpenDivX, MJPA, JPEG Photo,
+ PNG, RGB, YUV 4:2:2, and YUV 4:2:0 compression. Supported audio CODECs are Ogg
+ Vorbis, IMA4, ulaw, and any linear PCM format.
+ .
+ This package contains additional utilities.
+
+Package: quicktime-x11utils
+Section: utils
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends}
+Description: library for reading and writing Quicktime files (x11 utilities)
+ libquicktime is a library for reading and writing QuickTime files on UNIX
+ systems. Video CODECs supported by this library are OpenDivX, MJPA, JPEG Photo,
+ PNG, RGB, YUV 4:2:2, and YUV 4:2:0 compression. Supported audio CODECs are Ogg
+ Vorbis, IMA4, ulaw, and any linear PCM format.
+ .
+ This package contains additional utilities for the X window system.

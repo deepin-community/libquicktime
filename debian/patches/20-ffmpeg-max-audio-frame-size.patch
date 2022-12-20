@@ -1,0 +1,18 @@
+Description: Redefine AVCODEC_MAX_AUDIO_FRAME_SIZE removed in FFmpeg 2.0
+Origin: upstream, https://sourceforge.net/p/libquicktime/git/ci/44662bf4f5e1364140f08b26126f097986475435
+Bug-Debian: http://bugs.debian.org/739325
+
+--- a/plugins/ffmpeg/audio.c
++++ b/plugins/ffmpeg/audio.c
+@@ -45,6 +45,11 @@
+ #define ENCODE_AUDIO 1
+ #endif
+ 
++#ifndef AVCODEC_MAX_AUDIO_FRAME_SIZE
++/* from libavcodec/avcodec.h dated Dec 23 2012 */
++#define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000 // 1 second of 48khz 32bit audio
++#endif
++
+ /* The following code was ported from gmerlin_avdecoder (http://gmerlin.sourceforge.net) */
+ 
+ /* MPEG Audio header parsing code */

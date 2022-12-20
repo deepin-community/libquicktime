@@ -1,0 +1,8 @@
+02-install-in-libquicktime2.patch
+11-path_max.patch
+20-ffmpeg-max-audio-frame-size.patch
+21-ffmpeg-flags.patch
+22-ffmpeg3-av-prefix.patch
+23-ffmpeg4.patch
+CVE-2016-2399.patch
+CVE-2017-9122_et_al.patch
