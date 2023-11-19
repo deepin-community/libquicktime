@@ -1,0 +1,100 @@
+From: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Date: Wed, 30 Aug 2023 15:19:30 +0200
+Subject: Fix spelling errors
+
+Origin: Debian
+Forwarded: no
+Last-Update: 2023-08-30
+
+Last-Update: 2023-08-30
+---
+ plugins/x264/lqt_x264.c | 2 +-
+ po/de.po                | 4 ++--
+ po/libquicktime.pot     | 4 ++--
+ src/chan.c              | 2 +-
+ utils/lqtplay.c         | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/plugins/x264/lqt_x264.c b/plugins/x264/lqt_x264.c
+index 3004c66..12a2499 100644
+--- a/plugins/x264/lqt_x264.c
++++ b/plugins/x264/lqt_x264.c
+@@ -648,7 +648,7 @@ static lqt_parameter_info_static_t encode_parameters_x264[] =
+                                        (char*)0 },
+       .help_string = TRS("Trellis RD quantization. Requires CABAC. Can be enabled "
+                      "either for the final encode of a MB or for all mode "
+-                         "desisions")
++                         "decisions")
+     },
+     {
+       .name =        "x264_i_noise_reduction",
+diff --git a/po/de.po b/po/de.po
+index bdd8317..bf58c8c 100644
+--- a/po/de.po
++++ b/po/de.po
+@@ -774,7 +774,7 @@ msgstr "Zeilen :%i\n"
+ 
+ #: utils/lqtplay.c:1013
+ #, c-format
+-msgid "colums :%i\n"
++msgid "columns :%i\n"
+ msgstr "Spalten :%i\n"
+ 
+ #: utils/lqtplay.c:1014
+@@ -1704,7 +1704,7 @@ msgstr "Aktiviert (immer)"
+ #: plugins/x264/lqt_x264.c:649
+ msgid ""
+ "Trellis RD quantization. Requires CABAC. Can be enabled either for the final "
+-"encode of a MB or for all mode desisions"
++"encode of a MB or for all mode decisions"
+ msgstr ""
+ "Trellis RD Quantisierung. Benötigt CABAC. Kann entweder für das endgültige "
+ "Codieren eines MB oder für alle Moduswahlen aktiviert werden."
+diff --git a/po/libquicktime.pot b/po/libquicktime.pot
+index fc51a82..e9a4b41 100644
+--- a/po/libquicktime.pot
++++ b/po/libquicktime.pot
+@@ -737,7 +737,7 @@ msgstr ""
+ 
+ #: utils/lqtplay.c:1013
+ #, c-format
+-msgid "colums :%i\n"
++msgid "columns :%i\n"
+ msgstr ""
+ 
+ #: utils/lqtplay.c:1014
+@@ -1589,7 +1589,7 @@ msgstr ""
+ #: plugins/x264/lqt_x264.c:649
+ msgid ""
+ "Trellis RD quantization. Requires CABAC. Can be enabled either for the final "
+-"encode of a MB or for all mode desisions"
++"encode of a MB or for all mode decisions"
+ msgstr ""
+ 
+ #: plugins/x264/lqt_x264.c:655 plugins/ffmpeg/params.h:720
+diff --git a/src/chan.c b/src/chan.c
+index 6aa87a1..cb9b544 100644
+--- a/src/chan.c
++++ b/src/chan.c
+@@ -760,7 +760,7 @@ void quicktime_chan_dump(quicktime_chan_t *chan)
+ 
+   if(chan->mChannelLayoutTag == CHANNEL_LAYOUT_UseChannelDescriptions)
+     {
+-    lqt_dump(" [Use channel decriptions]\n");
++    lqt_dump(" [Use channel descriptions]\n");
+     }
+   else if(chan->mChannelLayoutTag == CHANNEL_LAYOUT_UseChannelBitmap)
+     {
+diff --git a/utils/lqtplay.c b/utils/lqtplay.c
+index 57a1179..14c9b5c 100644
+--- a/utils/lqtplay.c
++++ b/utils/lqtplay.c
+@@ -1010,7 +1010,7 @@ static void qt_init(FILE *fp, char *filename)
+ 	fprintf(stderr, _("movietype :%i\n"), lqt_qtvr_get_movietype(qt));
+ 	fprintf(stderr, _("panning :%f %f\n"), minpan, maxpan);
+ 	fprintf(stderr, _("rows :%i\n"), lqt_qtvr_get_rows(qt));
+-	fprintf(stderr, _("colums :%i\n"), lqt_qtvr_get_columns(qt));
++	fprintf(stderr, _("columns :%i\n"), lqt_qtvr_get_columns(qt));
+ 	fprintf(stderr, _("disp width :%i\n"), qtvr_dwidth);
+ 	fprintf(stderr, _("disp height :%i\n"), qtvr_dheight);
+ 	fprintf(stderr, _("width :%i\n"), lqt_qtvr_get_width(qt));

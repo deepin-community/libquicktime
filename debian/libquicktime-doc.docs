@@ -1,3 +1,3 @@
-doc/apiref
 doc/*.html
 doc/*.txt
+usr/share/doc/libquicktime2/apiref

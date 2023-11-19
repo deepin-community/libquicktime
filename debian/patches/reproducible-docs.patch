@@ -1,0 +1,27 @@
+From: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Date: Wed, 30 Aug 2023 15:19:30 +0200
+Subject: make documentation reproducible
+
+Origin: Debian
+Forwarded: no
+Last-Update: 2022-07-22
+
+tell Doxygen to not include the full path
+Last-Update: 2022-07-22
+---
+ doc/Doxyfile.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/doc/Doxyfile.in b/doc/Doxyfile.in
+index 06e74ff..66a3637 100644
+--- a/doc/Doxyfile.in
++++ b/doc/Doxyfile.in
+@@ -105,7 +105,7 @@ INLINE_INHERITED_MEMB  = NO
+ # path before files name in the file list and in the header files. If set 
+ # to NO the shortest path that makes the file name unique will be used.
+ 
+-FULL_PATH_NAMES        = YES
++FULL_PATH_NAMES        = NO
+ 
+ # If the FULL_PATH_NAMES tag is set to YES then the STRIP_FROM_PATH tag 
+ # can be used to strip a user-defined part of the path. Stripping is 

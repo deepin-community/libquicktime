@@ -1,60 +1,77 @@
-This package was first debianized by Gerd Knorr <kraxel@debian.org> on
-Sat,  2 Mar 2002 09:56:49 +0100.
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: libquicktime
+Upstream-Contact: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
+Source: https://libquicktime.sourceforge.net/
+License: LGPL-2.1+
+Comment:
+ The members of the libquicktime project include
+   Arthur Peters <amp@singingwizard.org>
+   Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
+   Gerd Knorr <kraxel@bytesex.org>
+   Justin Schoeman <justin@suntiger.ee.up.ac.za>
+   Elliot Lee <sopwith@redhat.com>
+   and others
 
-It was downloaded from <http://libquicktime.sourceforge.net/>.
+Files: *
+Copyright: 2002, Heroine Virtual Ltd.
+  2002-2011, Members of the libquicktime project.
+License: LGPL-2.1+
 
-Upstream Authors:
+Files: plugins/audiocodec/*law_tables.h
+Copyright: 2002, Heroine Virtual Ltd.
+  2002-2004, Erik de Castro Lopo
+  2002-2011, Members of the libquicktime project.
+License: LGPL-2.1+
 
-	Original quicktime4linux developer:
+Files: plugins/rtjpeg/*
+Copyright: 1998, Justin Schoeman <justin@suntiger.ee.up.ac.za>
+  1998-1999, Joerg Walter <trouble@moes.pmnet.uni-oldenburg.de>
+  1999, Wim Taymans <wim.taymans@tvd.be>
+  2002, Heroine Virtual Ltd.
+  2002-2011, Members of the libquicktime project.
+License: LGPL-2.1+
 
-	  Heroine Virtual (Motion picture solutions for Linux)
-	  <broadcast@earthling.net>
-	  http://heroinewarrior.com/quicktime
+Files: plugins/rtjpeg/mmx.h
+Copyright: 1997-2001, H. Dietz and R. Fisher
+  2002, Heroine Virtual Ltd.
+  2002-2011, Members of the libquicktime project.
+License: LGPL-2.1+
 
-	libquicktime developers:
+Files: src/lqt_fseeko.c
+Copyright: 1994, Regents of the University of California
+  1996-2002, PostgreSQL Global Development Group
+  2002, Heroine Virtual Ltd.
+  2002-2011, Members of the libquicktime project.
+License: LGPL-2.1+
 
-	  Arthur Peters <amp@singingwizard.org>
-	  Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
-	  Gerd Knorr <kraxel@bytesex.org>
-	  Justin Schoeman <justin@suntiger.ee.up.ac.za>
-	  Elliot Lee <sopwith@redhat.com>
-	  and others
+Files: debian/*
+Copyright: 2005-2017, Reinhard Tartler siretart@tauware.de
+ 2006, Daniel Baumann daniel@debian.org
+ 2007, Loic Minier lool@dooz.org
+ 2007, Sam Hocevar
+ 2007-2011, Fabian Greffrath fabian@debian-unofficial.org
+ 2011-2014, Alessio Treglia alessio@debian.org
+ 2014-2016, Sebastian Ramacher sramacher@debian.org
+ 2017, Balint Reczey balint@balintreczey.hu
+ 2018, Felipe Sateler fsateler@debian.org
+ 2018, James Cowgill jcowgill@debian.org
+ 2018-2019, Ondřej Nový onovy@debian.org
+ 2022-2023, IOhannes m zmölnig (Debian/GNU) umlaeute@debian.org
+License: LGPL-2.1+
 
-Copyright:
-
-	© 2002, Heroine Virtual Ltd.
-	© 2002-2011, Members of the libquicktime project
-
-	RTjpeg:
-
-	  © 1998, Justin Schoeman <justin@suntiger.ee.up.ac.za>
-
-	   With modifications by:
-
-	  © 1998-1999, Joerg Walter <trouble@moes.pmnet.uni-oldenburg.de>
-	  © 1999, Wim Taymans <wim.taymans@tvd.be>
-
-	Portions from FFmpeg (plugins/rtjpeg/mmx.h):
-
-	  © 1997-2001, H. Dietz and R. Fisher
-
-	Portions from libsndfile (plugins/audiocodec/alaw_tables.h, ulaw_tables.h):
-
-	  © 2002-2004, Erik de Castro Lopo
-
-	This library is free software; you can redistribute it and/or modify it under
-	the terms of the GNU Lesser General Public License as published by the Free
-	Software Foundation; either version 2.1 of the License, or (at your option)
-	any later version.
-
-	This library is distributed in the hope that it will be useful, but WITHOUT
-	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
-	details.
-
-	You should have received a copy of the GNU Lesser General Public License along
-	with this library; if not, write to the Free Software Foundation, Inc., 51
-	Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-
-On Debian systems, the complete text of the GNU Lesser General Public License
-can be found in `/usr/share/common-licenses/LGPL-2.1'.
+License: LGPL-2.1+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+ .
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+Comment: On Debian systems, the complete text of the GNU General
+ Public License can be found in `/usr/share/common-licenses/LGPL-2.1'.

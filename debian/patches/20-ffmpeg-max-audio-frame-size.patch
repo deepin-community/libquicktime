@@ -1,7 +1,15 @@
-Description: Redefine AVCODEC_MAX_AUDIO_FRAME_SIZE removed in FFmpeg 2.0
+From: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Date: Wed, 30 Aug 2023 15:19:30 +0200
+Subject: Redefine AVCODEC_MAX_AUDIO_FRAME_SIZE removed in FFmpeg 2.0
+
 Origin: upstream, https://sourceforge.net/p/libquicktime/git/ci/44662bf4f5e1364140f08b26126f097986475435
 Bug-Debian: http://bugs.debian.org/739325
+---
+ plugins/ffmpeg/audio.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/plugins/ffmpeg/audio.c b/plugins/ffmpeg/audio.c
+index bc8d750..62d1aa5 100644
 --- a/plugins/ffmpeg/audio.c
 +++ b/plugins/ffmpeg/audio.c
 @@ -45,6 +45,11 @@

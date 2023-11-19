@@ -1,23 +1,40 @@
 #!/usr/bin/make -f
 
-LDFLAGS+=-Wl,--as-needed
+PKG_EXPORT_BUILDFLAGS = 1
+DEB_BUILD_MAINT_OPTIONS=hardening=+all
+export DEB_BUILD_MAINT_OPTIONS
 
-include /usr/share/cdbs/1/rules/autoreconf.mk
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/autotools.mk
+include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/pkg-info.mk
 
-DEB_CONFIGURE_EXTRA_FLAGS += \
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
 	--with-cpuflags=none \
 	--enable-gpl \
 	--with-libdv \
-	--libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH)
+	--without-ffmpeg \
+	--without-gtk \
+	$(empty)
 
-DEB_DESTDIR := $(CURDIR)/debian/tmp
+override_dh_auto_build:
+	dh_auto_build -- \
+		MSGMERGE_UPDATE=true
 
-DEB_DH_MAKESHLIBS_ARGS_libquicktime2 := -Xlqt_
+override_dh_makeshlibs:
+	dh_makeshlibs -plibquicktime2 -Xlqt_
+	dh_makeshlibs --remaining-packages
 
-binary-install/libquicktime-doc::
-	# Symlinking qt4l_*.html to get rid of the prefix
-	for HTML in debian/libquicktime-doc/usr/share/doc/libquicktime-doc/qt4l_*.html; \
-		do ln -sf `basename $$HTML` `echo $$HTML | sed 's:qt4l_::'`; \
-	done
+DEB_COPYRIGHT_CHECK_IGNORE_REGEX = \
+        debian/.*
+# licensecheck v1
+.PHONY: licensecheck
+licensecheck:
+	LANG=C.UTF-8 licensecheck \
+		-i "^($(DEB_COPYRIGHT_CHECK_IGNORE_REGEX))$$" \
+		--check '.*' --recursive --deb-machine --lines 0 * \
+		> debian/copyright_newhints
+	cmp debian/copyright_hints debian/copyright_newhints \
+		&& rm debian/copyright_newhints
