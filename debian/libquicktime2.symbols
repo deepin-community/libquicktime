@@ -1,4 +1,5 @@
 libquicktime.so.2 libquicktime2 #MINVER#
+* Build-Depends-Package: libquicktime-dev
  cmodel_bc_to_x@Base 2:1.2.2
  cmodel_calculate_pixelsize@Base 2:1.2.2
  cmodel_is_planar@Base 2:1.2.2

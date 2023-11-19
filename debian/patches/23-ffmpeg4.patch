@@ -1,10 +1,21 @@
-Description: Fix FTBFS with FFmpeg 4.0
+From: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Date: Wed, 30 Aug 2023 15:19:30 +0200
+Subject: Fix FTBFS with FFmpeg 4.0
+
 Origin: vendor, https://gitweb.gentoo.org/repo/gentoo.git/tree/media-libs/libquicktime/files/libquicktime-1.2.4-ffmpeg4.patch
 Bug-Debian: https://bugs.debian.org/888381
+---
+ plugins/ffmpeg/audio.c  | 18 ++++++-------
+ plugins/ffmpeg/params.c | 72 +++++++++++++++++--------------------------------
+ plugins/ffmpeg/params.h |  2 +-
+ plugins/ffmpeg/video.c  | 25 +++++++++--------
+ 4 files changed, 46 insertions(+), 71 deletions(-)
 
+diff --git a/plugins/ffmpeg/audio.c b/plugins/ffmpeg/audio.c
+index 6a6d854..2d94548 100644
 --- a/plugins/ffmpeg/audio.c
 +++ b/plugins/ffmpeg/audio.c
-@@ -545,7 +545,7 @@ static int decode_chunk_vbr(quicktime_t
+@@ -545,7 +545,7 @@ static int decode_chunk_vbr(quicktime_t * file, int track)
  
  #if DECODE_AUDIO3 || DECODE_AUDIO4
      codec->pkt.data = codec->chunk_buffer;
@@ -13,7 +24,7 @@ Bug-Debian: https://bugs.debian.org/888381
  
  #if DECODE_AUDIO4
      frame_bytes = avcodec_decode_audio4(codec->avctx, &f,
-@@ -583,7 +583,7 @@ static int decode_chunk_vbr(quicktime_t
+@@ -583,7 +583,7 @@ static int decode_chunk_vbr(quicktime_t * file, int track)
                                           (codec->sample_buffer_end - codec->sample_buffer_start)],
                    &bytes_decoded,
                    codec->chunk_buffer,
@@ -22,7 +33,7 @@ Bug-Debian: https://bugs.debian.org/888381
      if(frame_bytes < 0)
        {
        lqt_log(file, LQT_LOG_ERROR, LOG_DOMAIN, "avcodec_decode_audio2 error");
-@@ -645,13 +645,13 @@ static int decode_chunk(quicktime_t * fi
+@@ -645,13 +645,13 @@ static int decode_chunk(quicktime_t * file, int track)
          return 0;
          }
  
@@ -39,7 +50,7 @@ Bug-Debian: https://bugs.debian.org/888381
        num_samples = mph.samples_per_frame;
        codec->bytes_in_chunk_buffer = mph.frame_bytes;
        }
-@@ -695,7 +695,7 @@ static int decode_chunk(quicktime_t * fi
+@@ -695,7 +695,7 @@ static int decode_chunk(quicktime_t * file, int track)
      {
  
          
@@ -48,7 +59,7 @@ Bug-Debian: https://bugs.debian.org/888381
         because we know, that lqt_read_audio_chunk allocates 16 extra bytes for us */
      
      /* Some really broken mp3 files have the header bytes split across 2 chunks */
-@@ -761,7 +761,7 @@ static int decode_chunk(quicktime_t * fi
+@@ -761,7 +761,7 @@ static int decode_chunk(quicktime_t * file, int track)
  
  #if DECODE_AUDIO3 || DECODE_AUDIO4
      codec->pkt.data = &codec->chunk_buffer[bytes_used];
@@ -57,7 +68,7 @@ Bug-Debian: https://bugs.debian.org/888381
  
  #if DECODE_AUDIO4
      
-@@ -798,7 +798,7 @@ static int decode_chunk(quicktime_t * fi
+@@ -798,7 +798,7 @@ static int decode_chunk(quicktime_t * file, int track)
                                                    (codec->sample_buffer_end - codec->sample_buffer_start)],
                              &bytes_decoded,
                              &codec->chunk_buffer[bytes_used],
@@ -66,7 +77,7 @@ Bug-Debian: https://bugs.debian.org/888381
  #endif
      if(frame_bytes < 0)
        {
-@@ -838,7 +838,7 @@ static int decode_chunk(quicktime_t * fi
+@@ -838,7 +838,7 @@ static int decode_chunk(quicktime_t * file, int track)
          }
        }
      
@@ -75,6 +86,8 @@ Bug-Debian: https://bugs.debian.org/888381
      
      if(codec->bytes_in_chunk_buffer < 0)
        codec->bytes_in_chunk_buffer = 0;
+diff --git a/plugins/ffmpeg/params.c b/plugins/ffmpeg/params.c
+index 7d4e7e0..2d3a4c7 100644
 --- a/plugins/ffmpeg/params.c
 +++ b/plugins/ffmpeg/params.c
 @@ -124,16 +124,6 @@ typedef struct
@@ -110,7 +123,7 @@ Bug-Debian: https://bugs.debian.org/888381
  #define PARAM_ENUM(name, var, arr) \
    if(!strcasecmp(key, name)) \
      { \
-@@ -203,7 +184,7 @@ void lqt_ffmpeg_set_parameter(AVCodecCon
+@@ -203,7 +184,7 @@ void lqt_ffmpeg_set_parameter(AVCodecContext * ctx,
    PARAM_INT_SCALE("ff_bit_rate_audio",bit_rate,1000);
    PARAM_INT_SCALE("ff_bit_rate_video",bit_rate,1000);
    PARAM_INT_SCALE("ff_bit_rate_tolerance",bit_rate_tolerance,1000);
@@ -119,7 +132,7 @@ Bug-Debian: https://bugs.debian.org/888381
    PARAM_INT("ff_gop_size",gop_size);
    PARAM_FLOAT("ff_qcompress",qcompress);
    PARAM_FLOAT("ff_qblur",qblur);
-@@ -227,10 +208,9 @@ void lqt_ffmpeg_set_parameter(AVCodecCon
+@@ -227,10 +208,9 @@ void lqt_ffmpeg_set_parameter(AVCodecContext * ctx,
    PARAM_INT("ff_rc_min_rate",rc_min_rate);
    PARAM_INT("ff_rc_max_rate",rc_max_rate);
    PARAM_INT_SCALE("ff_rc_buffer_size",rc_buffer_size,1000);
@@ -131,7 +144,7 @@ Bug-Debian: https://bugs.debian.org/888381
    PARAM_FLOAT("ff_lumi_masking",lumi_masking);
    PARAM_FLOAT("ff_temporal_cplx_masking",temporal_cplx_masking);
    PARAM_FLOAT("ff_spatial_cplx_masking",spatial_cplx_masking);
-@@ -255,8 +235,8 @@ void lqt_ffmpeg_set_parameter(AVCodecCon
+@@ -255,8 +235,8 @@ void lqt_ffmpeg_set_parameter(AVCodecContext * ctx,
    PARAM_INT("ff_me_range",me_range);
    PARAM_ENUM("ff_mb_decision",mb_decision,mb_decision);
    PARAM_INT("ff_scenechange_threshold",scenechange_threshold);
@@ -142,7 +155,7 @@ Bug-Debian: https://bugs.debian.org/888381
    PARAM_INT("ff_noise_reduction",noise_reduction);
    PARAM_INT_SCALE("ff_rc_initial_buffer_occupancy",rc_initial_buffer_occupancy,1000);
  
-@@ -269,33 +249,29 @@ void lqt_ffmpeg_set_parameter(AVCodecCon
+@@ -269,33 +249,29 @@ void lqt_ffmpeg_set_parameter(AVCodecContext * ctx,
  #endif
  
    PARAM_INT("ff_thread_count",thread_count);
@@ -186,7 +199,7 @@ Bug-Debian: https://bugs.debian.org/888381
    //  PARAM_FLAG("ff_flag_h263p_umv",CODEC_FLAG_H263P_UMV); // Unused
  
  #if LIBAVCODEC_VERSION_MAJOR >= 55
-@@ -303,9 +279,9 @@ void lqt_ffmpeg_set_parameter(AVCodecCon
+@@ -303,9 +279,9 @@ void lqt_ffmpeg_set_parameter(AVCodecContext * ctx,
    PARAM_DICT_FLAG("ff_flag_qp_rd","qp_rd");
    PARAM_DICT_FLAG("ff_flag2_strict_gop","strict_gop");
  #else
@@ -199,7 +212,7 @@ Bug-Debian: https://bugs.debian.org/888381
  #endif
  
  #if LIBAVCODEC_VERSION_MAJOR >= 54
-@@ -313,14 +289,14 @@ void lqt_ffmpeg_set_parameter(AVCodecCon
+@@ -313,14 +289,14 @@ void lqt_ffmpeg_set_parameter(AVCodecContext * ctx,
    PARAM_DICT_FLAG("ff_flag_obmc","obmc");
    PARAM_DICT_FLAG("ff_flag_h263p_slice_struct","structured_slices");
  #else
@@ -221,9 +234,11 @@ Bug-Debian: https://bugs.debian.org/888381
 +  PARAM_DICT_INT("ff_coder_type","coder");
    
    }
+diff --git a/plugins/ffmpeg/params.h b/plugins/ffmpeg/params.h
+index 31388a5..78e1f3f 100644
 --- a/plugins/ffmpeg/params.h
 +++ b/plugins/ffmpeg/params.h
-@@ -149,7 +149,7 @@ the reference. Unused for constant quant
+@@ -149,7 +149,7 @@ the reference. Unused for constant quantizer encoding") \
      .type =        LQT_PARAMETER_INT, \
      .val_default = { .val_int = 0 }, \
      .val_min =     { .val_int = 0 }, \
@@ -232,9 +247,11 @@ Bug-Debian: https://bugs.debian.org/888381
      .help_string = TRS("Maximum number of B-frames between non B-frames") \
    }
  
+diff --git a/plugins/ffmpeg/video.c b/plugins/ffmpeg/video.c
+index d0d27c2..af947c8 100644
 --- a/plugins/ffmpeg/video.c
 +++ b/plugins/ffmpeg/video.c
-@@ -781,7 +781,7 @@ static int lqt_ffmpeg_decode_video(quick
+@@ -781,7 +781,7 @@ static int lqt_ffmpeg_decode_video(quicktime_t *file, unsigned char **row_pointe
      if(extradata)
        {
        codec->extradata =
@@ -243,7 +260,7 @@ Bug-Debian: https://bugs.debian.org/888381
        memcpy(codec->extradata, extradata, extradata_size);
        codec->avctx->extradata_size = extradata_size;
        codec->avctx->extradata = codec->extradata;
-@@ -1140,8 +1140,8 @@ static int init_imx_encoder(quicktime_t
+@@ -1140,8 +1140,8 @@ static int init_imx_encoder(quicktime_t *file, int track)
    codec->avctx->qmin = 1;
    codec->avctx->qmax = 3;
    codec->avctx->rtp_payload_size = 1; // ??
@@ -254,7 +271,7 @@ Bug-Debian: https://bugs.debian.org/888381
  
  #if (LIBAVCODEC_VERSION_MAJOR < 54)
    codec->avctx->flags2 |= CODEC_FLAG2_INTRA_VLC|CODEC_FLAG2_NON_LINEAR_QUANT;
-@@ -1328,7 +1328,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1328,7 +1328,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
      //          codec->avctx->time_base.den = 1;
      //          codec->avctx->time_base.num = lqt_video_time_scale(file, track);
  
@@ -263,7 +280,7 @@ Bug-Debian: https://bugs.debian.org/888381
        codec->avctx->global_quality = codec->qscale;
                                
      codec->avctx->width = width;
-@@ -1344,7 +1344,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1344,7 +1344,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
        {
        if(!(file->file_type & (LQT_FILE_AVI|LQT_FILE_AVI_ODML)))
          {
@@ -272,7 +289,7 @@ Bug-Debian: https://bugs.debian.org/888381
          codec->write_global_header = 1;
          }
              
-@@ -1360,7 +1360,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1360,7 +1360,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
          {
          lqt_log(file, LQT_LOG_INFO, LOG_DOMAIN, "Enabling interlaced encoding");
          codec->avctx->flags |=
@@ -281,7 +298,7 @@ Bug-Debian: https://bugs.debian.org/888381
          }
  #endif
        }
-@@ -1387,7 +1387,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1387,7 +1387,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
        {
        if(!(file->file_type & (LQT_FILE_AVI|LQT_FILE_AVI_ODML)))
          {
@@ -290,7 +307,7 @@ Bug-Debian: https://bugs.debian.org/888381
          codec->write_global_header = 1;
          }
        }
-@@ -1410,7 +1410,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1410,7 +1410,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
        {
        if(vtrack->interlace_mode != LQT_INTERLACE_NONE)
          {
@@ -299,7 +316,7 @@ Bug-Debian: https://bugs.debian.org/888381
          }
        }
      else if(codec->is_imx)
-@@ -1422,7 +1422,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1422,7 +1422,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
        if(codec->pass == 1)
          {
          codec->stats_file = fopen(codec->stats_filename, "w");
@@ -308,7 +325,7 @@ Bug-Debian: https://bugs.debian.org/888381
          }
        else if(codec->pass == codec->total_passes)
          {
-@@ -1438,7 +1438,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1438,7 +1438,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
          fclose(codec->stats_file);
          codec->stats_file = (FILE*)0;
                
@@ -317,7 +334,7 @@ Bug-Debian: https://bugs.debian.org/888381
          }
        }
      /* Open codec */
-@@ -1516,7 +1516,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1516,7 +1516,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
      }
    
    codec->frame->pts = vtrack->timestamp;
@@ -326,7 +343,7 @@ Bug-Debian: https://bugs.debian.org/888381
      codec->frame->quality = codec->qscale;
  #ifdef DO_INTERLACE
    if(vtrack->interlace_mode != LQT_INTERLACE_NONE)
-@@ -1599,8 +1599,7 @@ static int lqt_ffmpeg_encode_video(quick
+@@ -1599,8 +1599,7 @@ static int lqt_ffmpeg_encode_video(quicktime_t *file, unsigned char **row_pointe
      else if(codec->encoder->id == AV_CODEC_ID_MPEG4)
        {
        int advanced = 0;

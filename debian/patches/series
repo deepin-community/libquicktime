@@ -6,3 +6,7 @@
 23-ffmpeg4.patch
 CVE-2016-2399.patch
 CVE-2017-9122_et_al.patch
+reproducible-docs.patch
+cross-build.patch
+spelling.patch
+auto-gitignore

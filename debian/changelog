@@ -1,8 +1,63 @@
-libquicktime (2:1.2.4-deepin1) unstable; urgency=medium
+libquicktime (2:1.2.4-15) unstable; urgency=medium
 
-  * Rebuild
+  * Add patch to fix spelling mistakes
+  * Drop B-D on libsdl1.2-dev (Closes: #1038101)
+  * Drop B-D on libgtk2.0-dev (Closes: #967586)
+    + Consequently remove 'libquicktime_config' from quicktime-x11utils
+  * Drop obsolete dependency on libgl1-mesa-dev in favour of libgl-dev
+  * B-D on pkg-config
+  * Add Build-Depends-Package to symbols file
+  * Fix double-builds (Closes: #1048807)
+    + Clean po/*.gmo files
+    + Do not update po-files during build
+  * Drop duplicate libdir argument to autotools
+  * Update copyright information
+    + Convert d/copyright to machine-readable format
+    + Ensure that 'licensecheck' is run with the C.UTF-8 locale
+  * Re-fresh patches with 'gbp pq'
+  * Apply 'wrap-and-sort -ast'
+  * Bump standards version to 4.6.2
 
- -- Deepin Packages Builder <packages@deepin.org>  Mon, 14 Nov 2022 17:46:24 +0800
+ -- IOhannes m zmölnig (Debian/GNU) <umlaeute@debian.org>  Wed, 30 Aug 2023 15:22:43 +0200
+
+libquicktime (2:1.2.4-14) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster
+  * Use secure URI in Homepage field.
+  * Fix day-of-week for changelog entry 2:1.0.0+debian-4.
+
+  [ IOhannes m zmölnig (Debian/GNU) ]
+  * Add 'licensecheck' target
+    + Generate initial d/copyright_hints
+
+ -- IOhannes m zmölnig (Debian/GNU) <umlaeute@debian.org>  Mon, 05 Dec 2022 11:33:37 +0100
+
+libquicktime (2:1.2.4-13) unstable; urgency=medium
+
+  [ Ondřej Nový ]
+  * d/watch: Use https protocol
+  * Use debhelper-compat instead of debian/compat
+
+  [ IOhannes m zmölnig (Debian/GNU) ]
+  * Drop ffmpeg support for now (Closes: #1004637)
+  * Drop cdbs in favour of shorthand dh (>=13)
+    * Drop autotools-related B-Ds (provided by debhelper>=13)
+    * Fix installation paths
+    * Declare .la-files as not-installed
+    * doc-base documentation is now in /usr/share/doc/libquicktime-dev
+  * Have -doc package Recommend the -dev package
+  * Make docs reproducible
+  * Add patch to allow for cross-building
+  * Declare that building this package does not require 'root' powers.
+  * Add salsa-ci configuration
+  * Apply 'wrap-and-sort -ast'
+  * Add myself to the uploaders
+  * Update d/watch to version 4
+  * Bump dh-compat to 13
+  * Bump standards version to 4.6.1
+
+ -- IOhannes m zmölnig (Debian/GNU) <umlaeute@debian.org>  Fri, 22 Jul 2022 23:56:21 +0200
 
 libquicktime (2:1.2.4-12) unstable; urgency=medium
 
@@ -563,7 +618,7 @@ libquicktime (2:1.0.0+debian-4) unstable; urgency=low
       Loic Minier to replace some unsigned long long casts with uint64_t casts
       instead; should fix build failure on amd64 (Closes: #417055).
 
- -- Fabian Greffrath <fabian@debian-unofficial.org>  Mon, 19 Jul 2007 12:27:00 +0200
+ -- Fabian Greffrath <fabian@debian-unofficial.org>  Thu, 19 Jul 2007 12:27:00 +0200
 
 libquicktime (2:1.0.0+debian-3) experimental; urgency=low
 

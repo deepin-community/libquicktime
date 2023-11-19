@@ -1,0 +1,106 @@
+From: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Date: Wed, 30 Aug 2023 15:19:30 +0200
+Subject: Don't try to run programs (think cross-compiling)
+
+Origin: Debian
+Forwarded: no
+Last-Update: 2022-07-22
+
+On Debian we have the right versions :-)
+Last-Update: 2022-07-22
+---
+ configure.ac | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 1836baa..eeb7fbc 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -252,11 +252,10 @@ dnl CFLAGS="$CFLAGS"
+ AC_MSG_CHECKING(for lame)
+ have_lame="false"
+ 
+-  AC_TRY_RUN([
++  AC_TRY_LINK([
+     #include <lame/lame.h>
+     #include <stdio.h>
+-    main()
+-    {
++  ],[
+     int version_major;
+     int version_minor;
+     const char * version;
+@@ -268,7 +267,6 @@ have_lame="false"
+     if((version_major != 3) || (version_minor < 93))
+       return 1;
+     return 0;
+-    }
+   ],
+   [
+     # program could be run
+@@ -668,11 +666,10 @@ LIBS="$LIBS -lfaac -lm"
+ CFLAGS="$CFLAGS"
+ 
+ AC_MSG_CHECKING(for faac)
+-AC_TRY_RUN([
++AC_TRY_LINK([
+     #include <inttypes.h>
+     #include <faac.h>
+-    main()
+-    {
++    ],[
+     int samplerate = 44100, num_channels = 2;
+     unsigned long input_samples, output_bytes;
+     faacEncHandle enc;
+@@ -682,7 +679,6 @@ AC_TRY_RUN([
+                       &output_bytes);
+ 
+     return 0;
+-    }
+   ],
+   [
+     # program could be run
+@@ -737,11 +733,10 @@ LIBS="$LIBS -lfaad -lm"
+ AC_MSG_CHECKING(for neaacdec.h usability for faad2)
+ 
+ 
+-AC_TRY_RUN([
++AC_TRY_LINK([
+     #include <neaacdec.h>
+     #include <stdio.h>
+-    main()
+-    {
++    ],[
+     int faad_major;
+     int faad_minor;
+     faacDecHandle dec;
+@@ -752,7 +747,6 @@ AC_TRY_RUN([
+     if(!dec)
+       return -1;
+     return 0;
+-    }
+   ],
+   [
+     # program could be run
+@@ -770,11 +764,10 @@ if test "x$have_faad2" != "xtrue"; then
+ 
+ AC_MSG_CHECKING(for faad.h usability for faad2)
+ 
+-AC_TRY_RUN([
++AC_TRY_LINK([
+     #include <faad.h>
+     #include <stdio.h>
+-    main()
+-    {
++    ],[
+     int faad_major;
+     int faad_minor;
+     faacDecHandle dec;
+@@ -785,7 +778,6 @@ AC_TRY_RUN([
+     if(!dec)
+       return -1;
+     return 0;
+-    }
+   ],
+   [
+     # program could be run

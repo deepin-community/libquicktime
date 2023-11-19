@@ -1,17 +1,23 @@
-Description: Avoid the use of PATH_MAX to allow building quicktime on hurd.
-Author: Cyril Roelandt <tipecaml@gmail.com>
+From: Cyril Roelandt <tipecaml@gmail.com>
+Date: Wed, 30 Aug 2023 15:19:30 +0200
+Subject: Avoid the use of PATH_MAX to allow building quicktime on hurd.
+
 Bug-Debian: http://bugs.debian.org/670338
 Reviewed-by: Alessio Treglia <alessio@debian.org>
 Last-Update: 2012-05-21
 Forwarded: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
+
+Forwarded: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
 ---
- src/lqt_codecinfo.c |   13 ++++++++++---
- utils/rechunk.c     |   17 +++++++++++++++++
+ src/lqt_codecinfo.c | 13 ++++++++++---
+ utils/rechunk.c     | 17 +++++++++++++++++
  2 files changed, 27 insertions(+), 3 deletions(-)
 
---- libquicktime.orig/src/lqt_codecinfo.c
-+++ libquicktime/src/lqt_codecinfo.c
-@@ -601,7 +601,8 @@ static int scan_for_plugins(const char *
+diff --git a/src/lqt_codecinfo.c b/src/lqt_codecinfo.c
+index a04b10a..1a95be6 100644
+--- a/src/lqt_codecinfo.c
++++ b/src/lqt_codecinfo.c
+@@ -601,7 +601,8 @@ static int scan_for_plugins(const char * plugin_dir, lqt_codec_info_t ** databas
    {
    char * pos;
    int ret;
@@ -21,7 +27,7 @@ Forwarded: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
    DIR * directory;
    struct dirent * directory_entry;
    struct stat status;
-@@ -611,8 +612,6 @@ static int scan_for_plugins(const char *
+@@ -611,8 +612,6 @@ static int scan_for_plugins(const char * plugin_dir, lqt_codec_info_t ** databas
    lqt_codec_info_t * video_codecs_end;
    lqt_codec_info_t * audio_codecs_end;
  
@@ -30,7 +36,7 @@ Forwarded: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
    /* Set the end pointers so we can quickly add codecs after */
  
    
-@@ -662,6 +661,14 @@ static int scan_for_plugins(const char *
+@@ -662,6 +661,14 @@ static int scan_for_plugins(const char * plugin_dir, lqt_codec_info_t ** databas
      
      /* Now, the file should be a valid plugin, construct the filename */
      
@@ -45,9 +51,11 @@ Forwarded: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
      strcpy(filename, plugin_dir);
      strcat(filename, "/");
      strcat(filename, directory_entry->d_name);
---- libquicktime.orig/utils/rechunk.c
-+++ libquicktime/utils/rechunk.c
-@@ -46,7 +46,11 @@ static char ** add_frames_from_file(char
+diff --git a/utils/rechunk.c b/utils/rechunk.c
+index 1e4be29..c58bab7 100644
+--- a/utils/rechunk.c
++++ b/utils/rechunk.c
+@@ -46,7 +46,11 @@ static char ** add_frames_from_file(char ** input_frames,
    {
    FILE * input;
    char * pos;
@@ -59,7 +67,7 @@ Forwarded: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
  
    input = fopen(list_filename, "r");
    if(!input)
-@@ -56,7 +60,11 @@ static char ** add_frames_from_file(char
+@@ -56,7 +60,11 @@ static char ** add_frames_from_file(char ** input_frames,
      return (char**)0;
      }
  
@@ -71,7 +79,7 @@ Forwarded: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
      {
      /* Delete trailing '\n' and '\r' */
  
-@@ -72,7 +80,12 @@ static char ** add_frames_from_file(char
+@@ -72,7 +80,12 @@ static char ** add_frames_from_file(char ** input_frames,
          break;
  
        if(pos == filename)
@@ -84,7 +92,7 @@ Forwarded: Burkhard Plaum <plaum@ipf.uni-stuttgart.de>
        
        pos--;      
        }
-@@ -83,6 +96,10 @@ static char ** add_frames_from_file(char
+@@ -83,6 +96,10 @@ static char ** add_frames_from_file(char ** input_frames,
      input_frames = realloc(input_frames, sizeof(char*) * *total_input_frames);
      input_frames[*total_input_frames - 1] = strdup(filename);
      //    fprintf(stderr, "Adding file %s\n", input_frames[*total_input_frames - 1]);
